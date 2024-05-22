@@ -10,10 +10,28 @@ namespace modelirovanie
     {
         static void Main(string[] args)
         {
-            ConveyorSystem conveyorSystem = new ConveyorSystem(5,0, 4,120); // количество станков, места в буфере, интенсивность прихода заявок, время симуляции прихода заявок в минутах
+            List<(double, double,int,int,double)> stat = new List<(double, double, int, int,double)>();
 
-            
-            conveyorSystem.Simulate();
+            for (int i = 1; i <= 5; i++)
+            {
+                for (int j = 0; j <= 5; j++)
+                {
+
+                    ConveyorSystem conveyorSystem = new ConveyorSystem(4, 3, 4, 240); // количество станков, места в буфере, интенсивность прихода заявок, время симуляции прихода заявок в минутах
+                    stat.Add(conveyorSystem.Simulate());
+                }
+            }
+            stat.Sort();
+            foreach (var item in stat)
+            {
+                //Console.WriteLine($"Количество станоков {item.Item3}, размер буфера {item.Item4}");
+                Console.WriteLine($"{item.Item1:F2}  {item.Item2:F0}");
+            }
+
+            Console.ReadLine();
+
+
+            //conveyorSystem.Simulate();
         }
     }
 }
