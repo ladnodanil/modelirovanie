@@ -12,7 +12,7 @@ namespace modelirovanie
         {
             List<(double, double,int,int,double)> stat = new List<(double, double, int, int,double)>();
 
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 6; i++)
             {
                 for (int j = 0; j <= 5; j++)
                 {
@@ -24,8 +24,12 @@ namespace modelirovanie
             stat.Sort();
             foreach (var item in stat)
             {
-                //Console.WriteLine($"Количество станоков {item.Item3}, размер буфера {item.Item4}");
+                if(item.Item1 >= 0.75)
+                {
+                Console.WriteLine($"Количество станоков {item.Item3}, размер буфера {item.Item4}");
                 Console.WriteLine($"{item.Item1:F2}  {item.Item2:F0}");
+
+                }
             }
 
             Console.ReadLine();

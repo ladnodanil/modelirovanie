@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace modelirovanie
@@ -91,17 +92,23 @@ namespace modelirovanie
 
             double T_buffer = 0; // время в буфере
 
-            Random random = new Random();
 
+            Random random = new Random();
 
             while (t_prich < SimulationTime)
             {
+                
                 bool flag = false;
 
                 bool IsComleted = false;
 
                 t_prich += arrivalTime(random, Lyamda);
                 k++;
+                if (k == 1)
+                {
+                    Console.WriteLine(arrivalTime(random, Lyamda));
+
+                }
                 //Console.WriteLine($"Заявка № {k} пришла в {t_prich*60} секунд");
 
                 foreach (Machine machine in Machines)
@@ -175,7 +182,7 @@ namespace modelirovanie
                 {
                     N_neobs++;
                 }
-
+                //Thread.Sleep(10);
 
                 //Console.WriteLine();
 
@@ -183,21 +190,21 @@ namespace modelirovanie
             double ver_obs = (double)N_obs / k ;
             double ver_neobs = (double)N_neobs / k;
 
-            //Console.WriteLine("Статистика:");
-            //Console.WriteLine($"Количество станков: {Machines.Length}");
-            //Console.WriteLine($"Количество места в буфере: {Machines.Last().Buffers.Length}");
-            //Console.WriteLine($"Количество заявок: {k}");
-            //Console.WriteLine($"Количество обслуженных заявок: {N_obs} - Вероятность обслуживания детали {ver_obs:F2} %");
-            //Console.WriteLine($"Количество необслуженных заявок: {N_neobs} - Вероятность необслуживания детали {ver_neobs:F2} %");
+            Console.WriteLine("Статистика:");
+            Console.WriteLine($"Количество станков: {Machines.Length}");
+            Console.WriteLine($"Количество места в буфере: {Machines.Last().Buffers.Length}");
+            Console.WriteLine($"Количество заявок: {k}");
+            Console.WriteLine($"Количество обслуженных заявок: {N_obs} - Вероятность обслуживания детали {ver_obs:F2} %");
+            Console.WriteLine($"Количество необслуженных заявок: {N_neobs} - Вероятность необслуживания детали {ver_neobs:F2} %");
 
 
-            //foreach (Machine machine1 in Machines)
-            //{
-            //    Console.WriteLine($"Количество обработанных деталей станком № {machine1.Index}: {machine1.ServicedDetail} - Вероятность попадания в станок {(double)machine1.ServicedDetail / N_obs:F2} %");
-            //}
-            //Console.WriteLine($"Cреднее время обслуживания заявок: {T_obs / N_obs * 60} секунд");
-            //Console.WriteLine($"Cреднее время в буфере: {T_buffer / N_obs * 60} секунд");
-            //Console.WriteLine($"Cреднее время пребывание заявок: {T_preb / N_obs * 60} секунд\n\n");
+            foreach (Machine machine1 in Machines)
+            {
+                Console.WriteLine($"Количество обработанных деталей станком № {machine1.Index}: {machine1.ServicedDetail} - Вероятность попадания в станок {(double)machine1.ServicedDetail / N_obs:F2} %");
+            }
+            Console.WriteLine($"Cреднее время обслуживания заявок: {T_obs / N_obs * 60} секунд");
+            Console.WriteLine($"Cреднее время в буфере: {T_buffer / N_obs * 60} секунд");
+            Console.WriteLine($"Cреднее время пребывание заявок: {T_preb / N_obs * 60} секунд\n\n");
             return (ver_obs, T_preb / N_obs * 60,Machines.Length,Machines.Last().Buffers.Length, T_buffer / N_obs * 60);
 
         }
